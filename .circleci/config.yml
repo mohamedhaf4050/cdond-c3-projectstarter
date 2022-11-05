@@ -91,16 +91,16 @@ jobs:
       # Checkout code from git
       - checkout
       # Restore from cache
-      - restore_cache:
-          keys: [frontend-build]
+      # - restore_cache:
+      #     keys: [frontend-build]
 
-      # Your job code here
-      - run:
-          name: scan front-end
-          command: |
-            cd frontend
-            npm install
-            npm audit --audit-level=critical
+      # # Your job code here
+      # - run:
+      #     name: scan front-end
+      #     command: |
+      #       cd frontend
+      #       npm install
+      #       npm audit --audit-level=critical
 
   scan-backend:
     docker:
@@ -293,8 +293,8 @@ workflows:
 
       - scan-backend:
         requires: [build-backend]
-      - scan-frontend:
-        requires: [build-frontend]
+      # - scan-frontend:
+      #   requires: [build-frontend]
       # - test-frontend:
       #     requires: [build-frontend]
       # - test-backend:
