@@ -95,7 +95,7 @@ jobs:
           keys: [frontend-build]
 
       # Your job code here
-      cd frontend
+      cd frontend 
       npm install
       # npm install oauth-sign@^0.9.0
       npm audit --audit-level=critical
