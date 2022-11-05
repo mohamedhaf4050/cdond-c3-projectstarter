@@ -113,7 +113,7 @@ jobs:
         keys: [backend-build]
       # Your job code here
       - run:
-          name: Build backend-end
+          name: Build back-end
           command: |
             cd backend
             npm install
