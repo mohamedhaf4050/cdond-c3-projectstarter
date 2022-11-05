@@ -8,7 +8,6 @@ commands:
         type: string
     steps:
       - run:
-
         name: Destroy environments
         when: on_fail
         command: |
