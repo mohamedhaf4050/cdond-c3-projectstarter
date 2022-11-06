@@ -204,15 +204,19 @@ jobs:
       # attach workspace
       - attach_workspace:
           at: ~/
+      # Add ssh keys with fingerprint
+      # attach workspace
       - run:
           name: Install dependencies
           command: |
-            # Your code here
+            pip install awscli
             apk add --update ansible
+
+
+
       - run:
           name: Configure server
           command: |
-            # Your code here
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
       # - destroy-environment
