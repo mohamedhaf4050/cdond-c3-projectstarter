@@ -208,6 +208,7 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
+            apk add --update ansible
       - run:
           name: Configure server
           command: |
