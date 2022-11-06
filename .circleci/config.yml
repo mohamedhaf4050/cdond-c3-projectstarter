@@ -208,7 +208,6 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            pip install ansible
       - run:
           name: Configure server
           command: |
