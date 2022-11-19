@@ -294,7 +294,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update install -y tar gzip ansible aws-cli nodejs npm
+            apk add --update -y tar gzip ansible aws-cli nodejs npm
             
       
             
