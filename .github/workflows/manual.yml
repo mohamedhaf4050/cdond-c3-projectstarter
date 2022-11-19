@@ -8,7 +8,7 @@ on:
   pull_request_target:
     types: [opened, reopened]
 
-  # Allowfe  s you to run this workflow manually from the Actions tab
+  # Allowfen  s you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
