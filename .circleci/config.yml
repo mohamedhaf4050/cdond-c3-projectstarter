@@ -294,7 +294,13 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            install ansible aws-cli nodejs npm tar gzip curl
+            apk add ansible 
+            apk add aws-cli
+            apk add nodejs
+            apk add npm
+            apk add tar
+            apk add gzip 
+            
 
       - run:
           name: Deploy backend
