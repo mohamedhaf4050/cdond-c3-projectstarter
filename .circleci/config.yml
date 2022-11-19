@@ -300,6 +300,8 @@ jobs:
             apk add npm
             apk add tar
             apk add gzip 
+            apk add curl
+            
       
             
 
