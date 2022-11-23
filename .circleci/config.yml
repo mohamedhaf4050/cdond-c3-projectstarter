@@ -370,21 +370,23 @@ jobs:
             fi
       # Here's where you will add some code to rollback on failure  
 
-#   cloudfront-update:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Update cloudfront distribution
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
-
+  cloudfront-update:
+    docker:
+      # Docker image here that supports Ansible
+      - image: python:3.7-alpine3.16
+    steps:
+      # Checkout code from git
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - add_ssh_keys:
+          fingerprints: ["2a:28:d5:d9:56:86:ce:12:32:db:15:f2:3c:97:d5:00"]
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            apk add --update ansible aws-cli nodejs npm tar gzip curl
+      
 # cleanup:
 #     docker:
 #       # Docker image here
