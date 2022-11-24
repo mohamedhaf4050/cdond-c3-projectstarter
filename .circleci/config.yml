@@ -118,7 +118,7 @@ jobs:
             
   scan-frontend:
     docker:
-      # Docker image here
+      # Docker imjage here
       - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
