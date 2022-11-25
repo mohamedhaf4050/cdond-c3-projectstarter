@@ -444,7 +444,7 @@ workflows:
           # filters:
           #   branches:
           #     only: [test-feature-branch]
-      - deploy-backend:
+      - deploy-backend
       # - configure-infrastructure:
       #     requires: [deploy-infrastructure]
       # - run-migrations:
