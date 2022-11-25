@@ -415,7 +415,7 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
-            OldWorkflowID=$(curl --insecure  https://kvdb.io/JuqqDRBt3ToGkyhLSjL6o/migration_${CIRCLE_WORKFLOW_ID:0:7}_OldWorkflowID)
+            OldWorkflowID=$(curl --insecure  https://kvdb.io/UeyCe6GJTe2krJRGFt3f4B/migration_${CIRCLE_WORKFLOW_ID:0:7}_OldWorkflowID)
             # export OldWorkflowID=$(aws cloudformation \
             #   list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
             #   --no-paginate --output text| cut -d '-' -f 2)
@@ -457,10 +457,11 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
+
       - deploy-backend:
-          requires: [run-migrations]
+          requires: [frontend-migrations]
+      - deploy-frontend:
+          requires: [deploy-backend]
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
