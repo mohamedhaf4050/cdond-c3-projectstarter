@@ -409,6 +409,8 @@ jobs:
               --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
       - destroy-environment
+      - revert-migrations
+
   cleanup:
     docker:
       # Docker image here tdshat supports Ansible
@@ -425,27 +427,27 @@ jobs:
           command: |
             # your code here
             apk add --update ansible aws-cli nodejs npm tar gzip curl
-      
+
       - run:
-          name: saving old stack name 
+          name: Remove old stacks and files
           command: |
-            OldWorkflowID2=$(aws cloudformation \
-              list-exports --query "Exports[?Name==\`WorkflowID2\`].Value" \
-              --no-paginate --output text| cut -d '-' -f 2)
-            curl --insecure https://kvdb.io/UeyCe6GJTe2krJRGFt3f4B/migration_${CIRCLE_WORKFLOW_ID:0:7}_OldWorkflowID  -d ${OldWorkflowID2}
-            echo "OldWorkflowID is ${OldWorkflowID2}"
-      - run:
-          name: Update cloudfront distribution
-          command: |
-            export OldWorkflowID=$(aws cloudformation \
-              list-exports --query "Exports[?Name==\`WorkflowID2\`].Value" \
-              --no-paginate --output text| cut -d '-' -f 2)
-            # Change the initial stack name, as applicable to you
-            aws cloudformation deploy \
-              --template-file .circleci/files/cloudfront.yml \
-              --stack-name Stack2 \
-              --parameter-overrides WorkflowID2="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --tags project=udapeople
+            OldWorkflowID=$(curl --insecure  https://kvdb.io/JuqqDRBt3ToGkyhLSjL6o/migration_${CIRCLE_WORKFLOW_ID:0:7}_OldWorkflowID)
+            # export OldWorkflowID=$(aws cloudformation \
+            #   list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+            #   --no-paginate --output text| cut -d '-' -f 2)
+            echo OldWorkflowID: "${OldWorkflowID}"
+            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+            # Fetch the stack names          
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+                    --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+            echo Stack names: "${STACKS[@]}" 
+            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
+              then
+                aws s3 rm s3://udapeople-${OldWorkflowID} --recursive
+
+                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+              fi
   #aa           
 
 workflows:
